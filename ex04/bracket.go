@@ -1,38 +1,20 @@
 package brackets
 
-func Bracket(s string) (bool, error) {
-	a, b, c := true, true, true
-	for i := 0; i < len(s); i++ {
-		if s[i] == '(' {
-			a = false
-			for j := i + 1; j < len(s); j += 2 {
-				if s[j] == ')' {
-					a = true
-					break
-				}
-			}
-		}
-		if s[i] == '[' {
-			b = false
-			for j := i + 1; j < len(s); j += 2 {
-				if s[j] == ']' {
-					b = true
-					break
-				}
-			}
-		}
-		if s[i] == '{' {
-			c = false
-			for j := i + 1; j < len(s); j += 2 {
-				if s[j] == '}' {
-					c = true
-					break
-				}
-			}
+import "strings"
+
+func Bracket(str string) (bool, error) {
+	type1, type2, type3 := "()", "[]", "{}"
+
+	flag := true
+
+	for flag {
+		if strings.Contains(str, type1) || strings.Contains(str, type2) || strings.Contains(str, type3) {
+			str = strings.Replace(strings.Replace(strings.Replace(str, type1, "", -1), type2, "", -1), type3, "", -1)
+		} else if str == "" {
+			return flag, nil
+		} else {
+			flag = false
 		}
 	}
-	if a && b && c {
-		return true, nil
-	}
-	return false, nil
+	return flag, nil
 }
